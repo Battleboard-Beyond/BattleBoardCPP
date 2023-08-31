@@ -12,6 +12,8 @@ int main()
 	word = "hahaha text";
 
 	cout << "Hello world!" << endl;
+	cout << "Orbie!" << endl;
 
 	return 0;
+	
 }
