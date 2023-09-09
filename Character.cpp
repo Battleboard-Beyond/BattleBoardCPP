@@ -39,6 +39,7 @@ Character::Character(string _name, string _owner, int _maxHealth, int _armorClas
 
 // Private methods
 void Character::initAbilityScores() {
+	abilityScores["NONE"] = 10; // Constant (NEVER CHANGE)
 	abilityScores["Strength"] = 10;
 	abilityScores["Dexterity"] = 10;
 	abilityScores["Constitution"] = 10;
@@ -48,15 +49,21 @@ void Character::initAbilityScores() {
 }
 
 void Character::initProficiencies() {
-	// constant
-	proficiencies["NONE"] = 0;
-	// ability scores (just zeros for now)
+	// constants NEVER CHANGE
+	proficiencies["NONE"] = 0; 
 	proficiencies["Strength"] = 0;
 	proficiencies["Dexterity"] = 0;
 	proficiencies["Constitution"] = 0;
 	proficiencies["Intelligence"] = 0;
 	proficiencies["Wisdom"] = 0;
 	proficiencies["Charisma"] = 0;
+	// ability scores (just zeros for now)
+	proficiencies["Strength_Save"] = 0;
+	proficiencies["Dexterity_Save"] = 0;
+	proficiencies["Constitution_Save"] = 0;
+	proficiencies["Intelligence_Save"] = 0;
+	proficiencies["Wisdom_Save"] = 0;
+	proficiencies["Charisma_Save"] = 0;
 	// strength skills
 	proficiencies["Athletics"] = 0;
 	// dexterity skills
@@ -83,6 +90,7 @@ void Character::initProficiencies() {
 }
 
 void Character::initModifiers() {
+	modifEqHolder["NONE"] = modifEq(standardModFunc, "NONE"); // Constant (NEVER CHANGE)
 	// ability scores (just zeros for now)
 	modifEqHolder["Strength"] = modifEq(standardModFunc, "Strength");
 	modifEqHolder["Dexterity"] = modifEq(standardModFunc, "Dexterity");
@@ -90,6 +98,13 @@ void Character::initModifiers() {
 	modifEqHolder["Intelligence"] = modifEq(standardModFunc, "Intelligence");
 	modifEqHolder["Wisdom"] = modifEq(standardModFunc, "Wisdom");
 	modifEqHolder["Charisma"] = modifEq(standardModFunc, "Charisma");
+	// saving throws
+	modifEqHolder["Strength_Save"] = modifEq(standardModFunc, "Strength");
+	modifEqHolder["Dexterity_Save"] = modifEq(standardModFunc, "Dexterity");
+	modifEqHolder["Constitution_Save"] = modifEq(standardModFunc, "Constitution");
+	modifEqHolder["Intelligence_Save"] = modifEq(standardModFunc, "Intelligence");
+	modifEqHolder["Wisdom_Save"] = modifEq(standardModFunc, "Wisdom");
+	modifEqHolder["Charisma_Save"] = modifEq(standardModFunc, "Charisma");
 	// strength skills
 	modifEqHolder["Athletics"] = modifEq(standardModFunc, "Strength");
 	// dexterity skills
@@ -118,7 +133,7 @@ void Character::initModifiers() {
 
 void Character::updateModifiers() {
 	for (map<string, modifEq>::iterator it = modifEqHolder.begin(); it != modifEqHolder.end(); it++) {
-		(*it->second.funcPtr)(
+		modifResults[it->first] = (*it->second.funcPtr)(
 			abilityScores[it->second.scoreName], 
 			proficiencies[it->first],
 			level
@@ -154,6 +169,7 @@ string Character::GetName() {
 
 void Character::SetStat(string statName, int newStat) {
 	abilityScores[statName] = max(newStat, 1);
+	updateModifiers();
 }
 int Character::GetStat(string statName) {
 	map<string, int>::iterator it = abilityScores.find(statName);
@@ -169,4 +185,24 @@ bool Character::DelStat(string statName) {
 	}
 	abilityScores.erase(it);
 	return true;
+}
+
+void Character::SetProficiency(string profName, int newValue) {
+	proficiencies[profName] = newValue;
+	updateModifiers();
+}
+int Character::GetProficiency(string profName) {
+	map<string, int>::iterator it = proficiencies.find(profName);
+	if (it == proficiencies.end()) {
+		return -1; // -1 means stat doesn't exist
+	}
+	return it->second;
+}
+
+int Character::GetModifier(string modifName) {
+	map<string, int>::iterator it = modifResults.find(modifName);
+	if (it == modifResults.end()) {
+		return 0; // 0 since it either doesn't exist or shouldn't change roll
+	}
+	return it->second;
 }

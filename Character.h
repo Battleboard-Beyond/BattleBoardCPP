@@ -9,8 +9,11 @@ class Character
 		struct modifEq {
 			int (*funcPtr)(int scoreVal, int profVal, int level);
 			string scoreName;
-			modifEq(int (*_funcPtr)(int, int, int), string _scoreName)
-			{
+			modifEq() {
+				funcPtr = nullptr;
+				scoreName = "";
+			}
+			modifEq(int (*_funcPtr)(int, int, int), string _scoreName) {
 				funcPtr = _funcPtr; 
 				scoreName = _scoreName;
 			}
@@ -44,5 +47,10 @@ class Character
 		void SetStat(string statName, int newValue); 
 		int GetStat(string statName);
 		bool DelStat(string statName);	// Returns success 
+
+		void SetProficiency(string profName, int newValue);
+		int GetProficiency(string profName);
+
+		int GetModifier(string modifName);
 };
 
