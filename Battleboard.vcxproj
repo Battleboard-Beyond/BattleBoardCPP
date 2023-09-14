@@ -134,6 +134,7 @@
     <ClCompile Include="MainFile.cpp" />
     <ClCompile Include="Modifier.cpp" />
     <ClCompile Include="StatCollection.cpp" />
+    <ClCompile Include="StatPrint.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h" />
@@ -141,6 +142,7 @@
     <ClInclude Include="Character.h" />
     <ClInclude Include="Modifier.h" />
     <ClInclude Include="StatCollection.h" />
+    <ClInclude Include="StatPrint.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

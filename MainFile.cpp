@@ -8,8 +8,7 @@ using namespace std;
 
 int main()	
 {
-	string word;
-	word = "hahaha text";
+
 
 	Character bill("bill cosby", "Ethan", 23, 14, 1);
 	bill.SetStat("Intelligence", 5);
