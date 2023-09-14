@@ -36,20 +36,20 @@ Modifier::Modifier() {
 	ForceCalculate();
 }
 
-Modifier::Modifier(int& _abilityScoreValue, int& _proficiencyValue, int& _charLevel) {
+Modifier::Modifier(int& _abilityScoreValue, int& _proficiencyValue, int& _charLevelValue) {
 	abilityScorePtr = new int(_abilityScoreValue);
 	proficiencyPtr = new int(_proficiencyValue);
-	charLevelPtr = new int(_charLevel);
+	charLevelPtr = new int(_charLevelValue);
 	abilityScoreIsFromPtr = proficiencyIsFromPtr = charLevelIsFromPtr = false;
 	modifEq = *defaultModifEq;
 	modifValue = 0;
 	ForceCalculate();
 }
 
-Modifier::Modifier(int* _abilityScorePtr, int* _proficiencyPtr, int* _charLevel) {
+Modifier::Modifier(int* _abilityScorePtr, int* _proficiencyPtr, int* _charLevelPtr) {
 	abilityScorePtr = _abilityScorePtr;
 	proficiencyPtr = _proficiencyPtr;
-	charLevelPtr = _charLevel;
+	charLevelPtr = _charLevelPtr;
 	abilityScoreIsFromPtr = proficiencyIsFromPtr = charLevelIsFromPtr = true;
 	modifEq = *defaultModifEq;
 	modifValue = 0;

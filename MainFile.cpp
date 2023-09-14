@@ -16,19 +16,8 @@ int main()
 	bill.SetStat("Charisma", 15);
 	bill.SetStat("Wisdom", 9);
 
-
-
-
-
-
-
-
 	bill.SetProficiency("Perception", 1);
 	bill.SetProficiency("Deception", 1);
-	cout << "Deception mod: " << bill.GetModifier("Deception") << endl;
-	cout << "Perception mod: " << bill.GetModifier("Perception") << endl;
-	cout << "Intelligence Saving Throw mod: " << bill.GetModifier("Intelligence_Save") << endl;
-	cout << "Intelligence mod: " << bill.GetModifier("Intelligence") << endl;
 
 	cout << bill.GetName() << endl;
 	cout << bill.GetHealth() << endl;

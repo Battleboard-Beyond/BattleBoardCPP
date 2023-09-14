@@ -4,12 +4,7 @@
 using namespace std;
 
 // Functions
-int standardModFunc(int scoreVal, int profVal, int level) {
-	return (
-		(floor(scoreVal / 2.0) - 5) + // ability score bonus
-		((floor((level - 1.0) / 4) + 2) * profVal) // proficiency bonus
-		);
-}
+
 
 // Constructors
 Character::Character() {
@@ -20,8 +15,6 @@ Character::Character() {
 	owner = "Nobody";
 	initAbilityScores();
 	initProficiencies();
-	initModifiers();
-	updateModifiers();
 }
 
 Character::Character(string _name, string _owner, int _maxHealth, int _armorClass, int _level) {
@@ -33,8 +26,6 @@ Character::Character(string _name, string _owner, int _maxHealth, int _armorClas
 	owner = _owner;
 	initAbilityScores();
 	initProficiencies();
-	initModifiers();
-	updateModifiers();
 }
 
 // Private methods
@@ -89,58 +80,6 @@ void Character::initProficiencies() {
 	proficiencies["Persuasion"] = 0;
 }
 
-void Character::initModifiers() {
-	modifEqHolder["NONE"] = modifEq(standardModFunc, "NONE"); // Constant (NEVER CHANGE)
-	// ability scores (just zeros for now)
-	modifEqHolder["Strength"] = modifEq(standardModFunc, "Strength");
-	modifEqHolder["Dexterity"] = modifEq(standardModFunc, "Dexterity");
-	modifEqHolder["Constitution"] = modifEq(standardModFunc, "Constitution");
-	modifEqHolder["Intelligence"] = modifEq(standardModFunc, "Intelligence");
-	modifEqHolder["Wisdom"] = modifEq(standardModFunc, "Wisdom");
-	modifEqHolder["Charisma"] = modifEq(standardModFunc, "Charisma");
-	// saving throws
-	modifEqHolder["Strength_Save"] = modifEq(standardModFunc, "Strength");
-	modifEqHolder["Dexterity_Save"] = modifEq(standardModFunc, "Dexterity");
-	modifEqHolder["Constitution_Save"] = modifEq(standardModFunc, "Constitution");
-	modifEqHolder["Intelligence_Save"] = modifEq(standardModFunc, "Intelligence");
-	modifEqHolder["Wisdom_Save"] = modifEq(standardModFunc, "Wisdom");
-	modifEqHolder["Charisma_Save"] = modifEq(standardModFunc, "Charisma");
-	// strength skills
-	modifEqHolder["Athletics"] = modifEq(standardModFunc, "Strength");
-	// dexterity skills
-	modifEqHolder["Acrobatics"] = modifEq(standardModFunc, "Dexterity");
-	modifEqHolder["Sleight of Hand"] = modifEq(standardModFunc, "Dexterity");
-	modifEqHolder["Stealth"] = modifEq(standardModFunc, "Dexterity");
-	// intelligence skills
-	modifEqHolder["Arcana"] = modifEq(standardModFunc, "Intelligence");
-	modifEqHolder["History"] = modifEq(standardModFunc, "Intelligence");
-	modifEqHolder["Investigation"] = modifEq(standardModFunc, "Intelligence");
-	modifEqHolder["Nature"] = modifEq(standardModFunc, "Intelligence");
-	modifEqHolder["Religion"] = modifEq(standardModFunc, "Intelligence");
-	// wisdom skills
-	modifEqHolder["Animal Handling"] = modifEq(standardModFunc, "Wisdom");
-	modifEqHolder["Insight"] = modifEq(standardModFunc, "Wisdom");
-	modifEqHolder["Medicine"] = modifEq(standardModFunc, "Wisdom");
-	modifEqHolder["Perception"] = modifEq(standardModFunc, "Wisdom");
-	modifEqHolder["Survival"] = modifEq(standardModFunc, "Wisdom");
-	// charisma skills
-	modifEqHolder["Deception"] = modifEq(standardModFunc, "Charisma");
-	modifEqHolder["Intimidation"] = modifEq(standardModFunc, "Charisma");
-	modifEqHolder["Performance"] = modifEq(standardModFunc, "Charisma");
-	modifEqHolder["Persuasion"] = modifEq(standardModFunc, "Charisma");
-}
-
-
-void Character::updateModifiers() {
-	for (map<string, modifEq>::iterator it = modifEqHolder.begin(); it != modifEqHolder.end(); it++) {
-		modifResults[it->first] = (*it->second.funcPtr)(
-			abilityScores[it->second.scoreName], 
-			proficiencies[it->first],
-			level
-			);
-	}
-}
-
 // Public Methods
 void Character::SetHealth(int newHealth) {
 	health = min(max(newHealth, 0), maxHealth); // force between 0 and maxhealth (inclusive)
@@ -169,7 +108,6 @@ string Character::GetName() {
 
 void Character::SetStat(string statName, int newStat) {
 	abilityScores[statName] = max(newStat, 1);
-	updateModifiers();
 }
 int Character::GetStat(string statName) {
 	map<string, int>::iterator it = abilityScores.find(statName);
@@ -189,20 +127,11 @@ bool Character::DelStat(string statName) {
 
 void Character::SetProficiency(string profName, int newValue) {
 	proficiencies[profName] = newValue;
-	updateModifiers();
 }
 int Character::GetProficiency(string profName) {
 	map<string, int>::iterator it = proficiencies.find(profName);
 	if (it == proficiencies.end()) {
 		return -1; // -1 means stat doesn't exist
-	}
-	return it->second;
-}
-
-int Character::GetModifier(string modifName) {
-	map<string, int>::iterator it = modifResults.find(modifName);
-	if (it == modifResults.end()) {
-		return 0; // 0 since it either doesn't exist or shouldn't change roll
 	}
 	return it->second;
 }
