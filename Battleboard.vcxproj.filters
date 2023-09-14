@@ -27,6 +27,9 @@
     <ClCompile Include="BaseStats.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StatCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BaseStats.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StatCollection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

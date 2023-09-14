@@ -15,6 +15,3 @@ public:
 	BaseStats();
 	BaseStats(int* _levelPtr);
 };
-
-
-// 

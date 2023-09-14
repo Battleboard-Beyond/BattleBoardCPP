@@ -15,6 +15,14 @@ int main()
 	bill.SetStat("Intelligence", 5);
 	bill.SetStat("Charisma", 15);
 	bill.SetStat("Wisdom", 9);
+
+
+
+
+
+
+
+
 	bill.SetProficiency("Perception", 1);
 	bill.SetProficiency("Deception", 1);
 	cout << "Deception mod: " << bill.GetModifier("Deception") << endl;
